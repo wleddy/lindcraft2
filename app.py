@@ -1,6 +1,7 @@
 from flask import Flask, render_template, g, session, url_for, request, redirect
 from flask_mail import Mail
 
+from lindcraft.models import Model, Category, Product, init_db as lindcraft_init_db
 from takeabeltof.database import Database
 from users.models import User,Role,init_db, Pref
 from users.admin import Admin
@@ -44,6 +45,10 @@ def _before():
         g.admin = Admin(g.db)
         # Add items to the Admin menu
         # the order here determines the order of display in the menu
+        g.admin.register(Product,url_for('product.display'),display_name='Products',header_row=True,minimum_rank_required=500)
+        g.admin.register(Product,url_for('product.display'),display_name='Products',minimum_rank_required=500,roles=['admin',])
+        g.admin.register(Model,url_for('model.display'),display_name='Models',minimum_rank_required=500,roles=['admin',])
+        g.admin.register(Category,url_for('category.display'),display_name='Categories',minimum_rank_required=500,roles=['admin',])
         
         # a header row must have the some permissions or higher than the items it heads
         g.admin.register(User,url_for('user.display'),display_name='User Admin',header_row=True,minimum_rank_required=500)
@@ -70,9 +75,15 @@ app.register_blueprint(login.mod)
 app.register_blueprint(role.mod)
 app.register_blueprint(pref.mod)
 
+from lindcraft.views import product, category, model
+app.register_blueprint(category.mod)
+app.register_blueprint(product.mod)
+app.register_blueprint(model.mod)
+
 if __name__ == '__main__':
     with app.app_context():
         init_db(get_db())
+        lindcraft_init_db(get_db())
         get_db().close()
         
     #app.run(host='172.20.10.2', port=5000)
