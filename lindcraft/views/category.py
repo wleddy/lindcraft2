@@ -1,7 +1,7 @@
 from flask import request, session, g, redirect, url_for, abort, \
      render_template, flash, Blueprint, Response
 from users.admin import login_required, table_access_required
-from users.utils import printException, cleanRecordID
+from takeabeltof.utils import printException, cleanRecordID
 from datetime import datetime
 from lindcraft.models import Product, Category,  Model
 
