@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}Edit {{ g.title }}{% endblock %}
+{% block body %}
+	<h2>Edit {{ g.title }}</h2>	
+    <div id="product_form" style="float:left;width:30%">
+        <form action="{{ g.editURL }}{{ rec.id|default('0',True)}}/" method=post class="entry">
+            {% include "editFormButtons.html" %}
+            <fieldset>
+                <input type=hidden name="id" value="{{rec.id|default('0',True )}}">
+                <p><span>Name:</span><input type="text" size="30" name="name" required value="{{ rec.name|default('',True )}}" /></p>
+                <p><span>Description: </span><input type="text" size="30" name="desc" value="{{ rec.desc|default('',True )}}" /></p>
+                <p><span>Image: </span><input type="text" size="30" name="image_path" value="{{ rec.image_path|default('',True )}}" /></p>
+                <p>Image goes here...</p>
+                <p><span>Category: </span>
+                    <select  name="cat_id" required >
+                        {% if rec.cat_id == None or rec.cat_id < 1 %}
+                        <option value="0" ><em>Select One...</em></option>
+                        {% endif %}
+                        {% for category in categories %}
+                        <option value="{{ category.id }}" {% if rec.cat_id == category.id %}selected{% endif %} >{{ category.name}}</option>
+                        {% endfor %}
+                    </select>
+                </p>
+            </fieldset>
+        </form>
+    </div>    
+    <div id="model_list" style="margin-left:32%;width:33%;height:20em;overflow:scroll;border: 1pt solid #666;">
+        <!-- models list will display here -->
+        {{ modelList | safe }}
+    </div>
+    
+{% endblock body %}

@@ -1,0 +1,23 @@
+{# Form body for model editing #}
+
+<fieldset>
+	<input type=hidden name="id" value="{{rec.id|default('0',True )}}">
+    {% if products and not current_product %}
+    <select name="product_id">
+        <option value="0"><em>Select one</em></option>
+        {% for product in products %}
+        <option value="{{product.id}}">{{ product.name}}</option>
+        {% endfor %}
+    </select>
+    {% else %}
+		<input type=hidden name="product_id" value="{{rec.product_id|default('0',True )}}">
+        <h3>{{current_product.name}}</h3>
+    {% endif %}
+    <p><span>Qty:</span><input type="num" size="5" name="qty" required value="{{ rec.qty|default('',True )}}" />&nbsp;&nbsp;(+ to add, - to remove)</p>
+    <p><span>Value:</span>
+        <input type="num" size="5" name="value" value="{{ rec.value|default('0',True )|money}}" />
+        {%if current_product.uom %}(per {{ current_product.uom }}){% endif %}
+    </p>
+    <p><span>Date: </span><input type="date" size="20" required name="created" value="{{ rec.created|default('',True )|short_date_string}}" /></p>
+    <p><span>Note: </span><input type="text" size="40" name="note"  value="{{ rec.note|default('',True)}}" /></p>
+</fieldset>

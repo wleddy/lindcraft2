@@ -1,0 +1,29 @@
+<p><span class="script-link" onclick="editFromList('{{url_for('model.edit_from_list')}}0/{{product_id}}/')">Add Model...</span></p>
+{% if models %}
+    <table>
+    <tr>
+        <th>Date</th>
+        <th>Qty</th>
+        <th>Value</th>
+        <th colspan="2">Actions</th>
+    </tr>
+    {% for model in models %}
+        <tr id="model-{{model.id}}">
+            <td>{{model.created | short_date_string }}</td>
+            <td style="text-align:right;">{{model.qty | money() }}</td>
+            <td style="text-align:right;">{{ model.value | money() }}</td>
+            <td><span class="script-link" onclick="editFromList('{{ url_for('model.edit_from_list')}}{{ model.id }}/','model_list')">edit</span></td>
+            <td><span class="script-link" onclick="$.ajaxSetup({'async' : false});deleteFromList('{{ url_for('model.delete_from_list')}}{{ model.id }}/','model-{{model.id}}');update_stock_on_hand();">delete</span></td>
+        </tr>
+    {% endfor%}
+{% else %}
+    <p>No Models to list...</p>
+    </table>
+{% endif %}
+
+<script type="text/javascript">
+    function update_stock_on_hand(){
+        $("#product-QOH-value").load("{{ url_for('product.get_stock_on_hand')}}{{product_id | default("0", True)}}/");
+    }
+    update_stock_on_hand();
+</script>
