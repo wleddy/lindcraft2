@@ -12,7 +12,7 @@ def setExits():
     g.listURL = url_for('.display')
     g.editURL = url_for('.edit')
     g.deleteURL = url_for('.delete')
-    g.title = 'Inventory Model'
+    g.title = 'Model'
 
 
 @mod.route('/',methods=["GET",])

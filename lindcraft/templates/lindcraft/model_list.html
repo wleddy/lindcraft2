@@ -6,11 +6,21 @@
 	{%if recs %}
 		<table class="datatable">
 		<tr>
-            <th>Product</th>
+            <th>Model</th>
+            <th>Desc</th>
+            <th>Price</th>
+            <th>Active</th>
 		</tr>
 		{% for rec in recs %}
 	    <tr>
-			<td style="min-width:80px;"><a href="{{ g.editURL }}{{ rec.id }}/">{{ product[rec.prod_id]|default("None",true) }}</a></td>
+			<td style="min-width:80px;"><a href="{{ g.editURL }}{{ rec.id }}/">{{ rec.model }}</a></td>
+            <td>{{ rec.desc}}</td>
+            <td style="text-align:right;">{{ rec.price | money }}</td>
+            <td style="text-align:center;">{% if rec.active == 1 %}
+                <img src="{{ url_for('static', filename='images/check_mark.png') }}" />{% else %}
+                <img src="{{ url_for('static', filename='images/red_x.png') }}" />
+                {%endif%}
+            </td>
 		</tr>
 		{% endfor %}
 	  </table>
