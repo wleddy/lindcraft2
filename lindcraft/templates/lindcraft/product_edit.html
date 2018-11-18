@@ -7,13 +7,15 @@
             {% include "editFormButtons.html" %}
             <fieldset>
                 <input type=hidden name="id" value="{{rec.id|default('0',True )}}">
-                <p><span>Name:</span><input type="text" size="30" name="name" required value="{{ rec.name|default('',True )}}" /></p>
-                <p><span>Description: </span><input type="text" size="30" name="desc" value="{{ rec.desc|default('',True )}}" /></p>
+                <p><span>Name:</span><input type="text" size="60" name="name" required value="{{ rec.name|default('',True )}}" /></p>
+                <p><span>Description: </span>
+                    <textarea name="desc" rows="10" cols="73" style="font-size:.8em;">{{ rec.desc|default('',True ) }}</textarea>
+                 </p>
                 <p><span>Image: </span><input type="text" size="30" name="image_path" value="{{ rec.image_path|default('',True )}}" /></p>
                 <p>Image goes here...</p>
                 <p><span>Category: </span>
                     <select  name="cat_id" required >
-                        {% if rec.cat_id == None or rec.cat_id < 1 %}
+                        {% if rec.cat_id == None or rec.cat_id == "0" %}
                         <option value="0" ><em>Select One...</em></option>
                         {% endif %}
                         {% for category in categories %}
@@ -24,9 +26,12 @@
             </fieldset>
         </form>
     </div>    
-    <div id="model_list" style="margin-left:32%;width:33%;height:20em;overflow:scroll;border: 1pt solid #666;">
+    <div id="model_list" style="margin-left:380pt;height:20em;overflow:scroll;border-left: 1pt solid #666;padding-left:20pt;">
         <!-- models list will display here -->
+        <h3>Models</h3>
+        <div id="model_list_body">
         {{ modelList | safe }}
+        </div>
     </div>
     
 {% endblock body %}

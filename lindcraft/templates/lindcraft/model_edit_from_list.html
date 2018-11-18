@@ -7,9 +7,9 @@
 		<span class="cancel-link" onclick="cancelModalForm()">Cancel</span>
 		<input class="modelSave" type="button" 
             onclick="submitModalForm('modelFromListForm', 
-            '{{ url_for('model.edit_from_list')}}{{rec.id | default(0,True)}}/{{ rec.product_id | default(0,True)}}/', 
+            '{{ url_for('model.edit_from_list')}}{{rec.id | default(0,True)}}/{{ rec.prod_id | default(0,True)}}/', 
             'model_list', 
-            '{{ url_for('model.get_list_for_product')}}{{ rec.product_id }}/')" 
+            '{{ url_for('model.get_model_list_for_product')}}{{ rec.prod_id }}/')" 
             name="Save" value="Save" />
 		</p>
 	</div>

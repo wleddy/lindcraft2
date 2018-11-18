@@ -61,7 +61,7 @@ class Model(SqliteTable):
         #self.order_by_col = 'id'
         """ ordering =['product__category__displayOrder','model'] """
         
-        self.defaults = {}
+        self.defaults = {"active":1,}
         
     def create_table(self):
         """Define and create the Model table"""
@@ -84,7 +84,13 @@ class Model(SqliteTable):
         """Create the table and initialize data"""
         self.create_table()
 
-
+    def update(self,rec,form,save=False):
+        """The active field needs to be an int"""
+        super().update(rec,form,save)
+        if type(rec.active) is str or type(rec.active) is float:
+            rec.active = int(rec.active)
+            
+            
 def init_db(db):
     """Create a intial database."""
     Category(db).init_table()

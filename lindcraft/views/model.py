@@ -59,6 +59,7 @@ def edit_from_list(id=None,prod_id=None):
         prod_id = rec.prod_id
     else:
         rec = model.new()
+        rec.price_change_date = local_datetime_now()
         if 'last_model' in session:
             model.update(rec,session['last_model'])
     
@@ -68,9 +69,12 @@ def edit_from_list(id=None,prod_id=None):
         error_list=[]
         model.update(rec,request.form)
         if save_record(rec,error_list):
-            return "success" # the success function looks for this...
+            return "success" # the ajax success function looks for this...
         else:
-            pass
+            for err in error_list:
+                flash(err)
+            #return redirect(g.listURL)
+            
             
     
     if prod_id > 0:
@@ -85,14 +89,6 @@ def edit_from_list(id=None,prod_id=None):
             
     return render_template('model_edit_from_list.html',rec=rec,current_product=product_rec)
     
-#@mod.route('/add_from_list/',methods=["GET", "POST",])
-#@mod.route('/add_from_list/<int:prod_id>/',methods=["GET", "POST",])
-#@table_access_required(Model)
-#def add_from_list(prod_id=None):
-#    import pdb;pdb.set_trace()
-#    
-#    return edit_from_list(0,prod_id)
-        
     
 @mod.route('/delete_from_list/',methods=["GET", "POST",])
 @mod.route('/delete_from_list/<int:id>/',methods=["GET", "POST",])
@@ -124,7 +120,7 @@ def edit(id=None):
         flash("Invalid Record ID")
         return redirect(g.listURL)
     
-    if id >= 0 and not request.form:
+    if not request.form:
         if id == 0:
             rec = model.new()
             rec.price_change_date = local_datetime_now()
@@ -166,7 +162,7 @@ def edit(id=None):
 
 @mod.route('/get_model_list/',methods=["GET", ])
 @mod.route('/get_model_list/<int:prod_id>/',methods=["GET", ])
-def get_list_for_product(prod_id=None):
+def get_model_list_for_product(prod_id=None):
     """Render an html snippet of the transaciton list for the product"""
     prod_id = cleanRecordID(prod_id)
     models = None
@@ -210,8 +206,8 @@ def handle_delete(id=None):
 def save_record(rec,err_list=[]):
     """Attempt to validate and save a record"""
     if validate_form(rec):
-        Model(g.db).save(rec)
         try:
+            Model(g.db).save(rec)
             g.db.commit()
             #Save the date and comment to session
             session['last_model'] = {"price_change_date":rec.price_change_date,}
@@ -220,22 +216,35 @@ def save_record(rec,err_list=[]):
         except Exception as e:
             g.db.rollback()
             err_list.append(printException('Error attempting to save Model record',str(e)))
-            return false
+            return False
     
     
 def validate_form(rec):
     valid_form = True
+    rec.model = request.form.get('model',None).strip()
+    where = "model = '{}'".format(rec.model)
+    if rec.id is not None:
+        where += "and id <> {}".format(rec.id)
+    existing_model_cnt = Model(g.db).select(where=where) #return a row object or None
+    if not rec.model:
+        flash("Model Name is required.")
+        valid_form = False
+        
+    elif existing_model_cnt:
+        valid_form = False
+        flash('That model name is already taken')
+        
     datestring = request.form.get('price_change_date','').strip()
-    price_change_dateDate = getDatetimeFromString(datestring)
+    change_date = getDatetimeFromString(datestring)
     if datestring == '':
         valid_form = False
         flash('Date may not be empty')
         
-    if price_change_dateDate is None:
+    elif change_date is None:
         flash('Date is not in a known format ("mm/dd/yy")')
         valid_form = False
     else:
-        rec.price_change_date = price_change_dateDate
+        rec.price_change_date = change_date
         
     # Must be attached to an product
     productID = cleanRecordID(request.form.get('prod_id',0))

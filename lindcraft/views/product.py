@@ -4,7 +4,7 @@ from users.admin import login_required, table_access_required
 from takeabeltof.utils import printException, cleanRecordID
 from datetime import datetime
 from lindcraft.models import Product, Category,  Model
-from lindcraft.views.model import get_list_for_product
+from lindcraft.views.model import get_model_list_for_product
 
 mod = Blueprint('product',__name__, template_folder='../templates/lindcraft', url_prefix='/products')
 
@@ -46,11 +46,11 @@ def edit(id=None):
         return redirect(g.listURL)
     
     categories = Category(g.db).select()
-    uoms = Uom(g.db).select()
     
-    if id >= 0 and not request.form:
+    if not request.form:
         if id == 0:
             rec = product.new() # allow creation of new properties
+            rec.name = "" #Cant be null
             product.save(rec) # need an id for models
             g.db.commit() # have to commit this to protect the ID we just got
             # This name changes behavure of the Cancel link in the edit form
@@ -63,8 +63,6 @@ def edit(id=None):
             flash('Record not Found')
             return redirect(g.listURL)
             
-    #import pdb;pdb.set_trace()
-    on_hand = product.stock_on_hand(id)
                 
     if request.form:
         rec = product.get(id)
@@ -87,9 +85,9 @@ def edit(id=None):
             flash('Record not Found')
             return redirect(g.listURL)
             
-    modelList = get_list_for_product(rec.id)
+    modelList = get_model_list_for_product(rec.id)
     
-    return render_template('product_edit.html',rec=rec,categories=categories,uoms=uoms,modelList=modelList,on_hand=on_hand)
+    return render_template('product_edit.html',rec=rec,categories=categories,modelList=modelList)
 
 @mod.route('/cancel',methods=["GET", "POST",])
 @mod.route('/cancel/',methods=["GET", "POST",])
@@ -111,11 +109,11 @@ def cancel(id=None):
         
     
 @mod.route('/model_list_for_product',methods=["GET",])
-@mod.route('/model_list_for_product/<int:product_id>',methods=["GET",])
+@mod.route('/model_list_for_product/<int:prod_id>',methods=["GET",])
 @table_access_required(Product)
-def model_list_for_product(product_id=None):
+def model_list_for_product(prod_id=None):
     setExits()
-    return get_list_for_product(product_id)
+    return get_model_list_for_product(prod_id)
     
     
 @mod.route('/delete',methods=["GET", "POST",])

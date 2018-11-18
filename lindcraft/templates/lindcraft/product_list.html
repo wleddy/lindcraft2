@@ -7,14 +7,12 @@
 		<table class="datatable">
 		<tr>
 			<th>Name</th>
-            <th>Category</th>
-			<th>On Hand</th>
+            <th>Description</th>
 		</tr>
 		{% for rec in recs %}
 	    <tr>
 			<td style="min-width:100px;"><a href="{{ g.editURL }}{{ rec.id }}/">{{ rec.name }}</a></td>
-			<td style="min-width:80px;">{{ rec.cat_id | category_name |default("- None -",true) }}</td>
-			<td style="min-width:20px;text-align:right;">{{ rec.id | stock_on_hand |default("0",true) }}</td>
+			<td style="min-width:180px;">{{ rec.desc }}</td>
 		</tr>
 		{% endfor %}
 	  </table>

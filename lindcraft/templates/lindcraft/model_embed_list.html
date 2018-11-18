@@ -1,19 +1,27 @@
-<p><span class="script-link" onclick="editFromList('{{url_for('model.edit_from_list')}}0/{{product_id}}/')">Add Model...</span></p>
+<p><span class="script-link" onclick="editFromList('{{url_for('model.edit_from_list')}}0/{{prod_id}}/')">Add Model...</span></p>
 {% if models %}
     <table>
     <tr>
-        <th>Date</th>
-        <th>Qty</th>
-        <th>Value</th>
+        <th>Model</th>
+        <th>Size</th>
+        <th>Eff. Date</th>
+        <th>Price</th>
+        <th>Active</th>
         <th colspan="2">Actions</th>
     </tr>
     {% for model in models %}
         <tr id="model-{{model.id}}">
-            <td>{{model.created | short_date_string }}</td>
-            <td style="text-align:right;">{{model.qty | money() }}</td>
-            <td style="text-align:right;">{{ model.value | money() }}</td>
+            <td>{{model.model}}</td>
+            <td>{{model.size }}</td>
+            <td>{{ model.price_change_date | short_date_string }}</td>
+            <td style="text-align:right;">{{ model.price | money }}</td>
+            <td style="text-align:center;">{% if model.active == 1 %}
+                <img src="{{ url_for('static', filename='images/check_mark.png') }}" />{% else %}
+                <img src="{{ url_for('static', filename='images/red_x.png') }}" />
+                {%endif%}
+            </td>
             <td><span class="script-link" onclick="editFromList('{{ url_for('model.edit_from_list')}}{{ model.id }}/','model_list')">edit</span></td>
-            <td><span class="script-link" onclick="$.ajaxSetup({'async' : false});deleteFromList('{{ url_for('model.delete_from_list')}}{{ model.id }}/','model-{{model.id}}');update_stock_on_hand();">delete</span></td>
+            <td><span class="script-link" onclick="$.ajaxSetup({'async' : false});deleteFromList('{{ url_for('model.delete_from_list')}}{{ model.id }}/','model-{{model.id}}');">delete</span></td>
         </tr>
     {% endfor%}
 {% else %}
@@ -21,9 +29,3 @@
     </table>
 {% endif %}
 
-<script type="text/javascript">
-    function update_stock_on_hand(){
-        $("#product-QOH-value").load("{{ url_for('product.get_stock_on_hand')}}{{product_id | default("0", True)}}/");
-    }
-    update_stock_on_hand();
-</script>

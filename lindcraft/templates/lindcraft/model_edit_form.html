@@ -1,23 +1,44 @@
-{# Form body for model editing #}
+{# Form body for model editing
+    
+    sql = """
+        model TEXT UNIQUE NOT NULL,
+        desc TEXT,
+        size TEXT,
+        bike_cnt INTEGER DEFAULT 1,
+        price NUMBER DEFAULT 0,
+        active NUMBER DEFAULT 1,
+        price_change_date DATETIME,
+        prod_id INTEGER,
+        
+        FOREIGN KEY (prod_id) REFERENCES product(id) ON DELETE CASCADE"""
+ #}
 
 <fieldset>
 	<input type=hidden name="id" value="{{rec.id|default('0',True )}}">
     {% if products and not current_product %}
-    <select name="product_id">
+    <h3>Select a Product for this Model</h3>
+    <select name="prod_id">
         <option value="0"><em>Select one</em></option>
         {% for product in products %}
         <option value="{{product.id}}">{{ product.name}}</option>
         {% endfor %}
     </select>
     {% else %}
-		<input type=hidden name="product_id" value="{{rec.product_id|default('0',True )}}">
-        <h3>{{current_product.name}}</h3>
+		<input type=hidden name="prod_id" value="{{rec.prod_id|default('0',True )}}">
+        <h3>Edit Model for {{current_product.name}}</h3>
     {% endif %}
-    <p><span>Qty:</span><input type="num" size="5" name="qty" required value="{{ rec.qty|default('',True )}}" />&nbsp;&nbsp;(+ to add, - to remove)</p>
-    <p><span>Value:</span>
-        <input type="num" size="5" name="value" value="{{ rec.value|default('0',True )|money}}" />
-        {%if current_product.uom %}(per {{ current_product.uom }}){% endif %}
+    <p><span>Model Name:</span><input type="num" size="15" name="model" required value="{{ rec.model|default('',True )}}" /></p>
+    <p><span>Description:</span><input type="text" size="45" name="desc"  value="{{ rec.desc|default('',True )}}" /></p>
+    <p><span>Size:</span><input type="text" size="25" name="size"  value="{{ rec.size|default('',True )}}" /></p>
+    <p><span>Bike Count:</span><input type="num" size="5" name="bike_cnt"  value="{{ rec.bike_cnt|default('1',True )}}" /></p>
+    <p><span>Price:</span>
+        <input type="num" size="10" name="price" value="{{ rec.price|default('0',True )|money}}" />
     </p>
-    <p><span>Date: </span><input type="date" size="20" required name="created" value="{{ rec.created|default('',True )|short_date_string}}" /></p>
-    <p><span>Note: </span><input type="text" size="40" name="note"  value="{{ rec.note|default('',True)}}" /></p>
+    <p><span>Price Change Date: </span><input type="date" size="20" required name="price_change_date" value="{{ rec.price_change_date|default('',True )|short_date_string}}" /></p>
+    <p><span>Active:</span>
+        <input type="radio" name="active" value="1" {% if rec.active == 1 %} checked="checked" {%endif%} />Active
+        &nbsp;&nbsp;
+        <input type="radio" name="active" value="0" {% if rec.active != 1 %} checked="checked" {%endif%} />Inactive
+        
+    </p>
 </fieldset>
