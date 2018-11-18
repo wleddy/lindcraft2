@@ -3,6 +3,7 @@ from flask_mail import Mail
 
 from lindcraft.models import Model, Category, Product, init_db as lindcraft_init_db
 from takeabeltof.database import Database
+from takeabeltof.jinja_filters import register_jinja_filters
 from users.models import User,Role,init_db, Pref
 from users.admin import Admin
 
@@ -17,6 +18,7 @@ if app.config['CGI_ROOT_FIX_APPLY'] == True:
     fixPath = app.config.get("CGI_ROOT_FIX_PATH","/")
     app.wsgi_app = CGIRootFix(app.wsgi_app, app_root=fixPath)
 
+register_jinja_filters(app)
 
 # Create a mailer obj
 mail = Mail(app)
