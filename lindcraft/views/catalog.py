@@ -3,7 +3,7 @@ from flask import request, session, g, redirect, url_for, abort, \
 from takeabeltof.utils import printException, cleanRecordID
 from lindcraft.models import Product, Category,  Model
 
-mod = Blueprint('cat',__name__, template_folder='../templates/lindcraft/catelog')
+mod = Blueprint('catalog',__name__, template_folder='../templates/lindcraft/catalog')
 
 
 def setExits():
@@ -14,14 +14,14 @@ def setExits():
     g.view_catalog = True
 
 @mod.route('/',methods=["GET",])
-def display_intro():
+def home():
     setExits()
     
     parking_list = None
     display_list = None
     parking_list, display_list = get_nav_context()
     
-    return render_template('display_intro.html',display_list=display_list,parking_list=parking_list)
+    return render_template('home.html',display_list=display_list,parking_list=parking_list)
     
     
 @mod.route('/product',methods=["GET",])
@@ -42,14 +42,30 @@ def prices(prod_id=None):
     
     return "No Prices Yet"
 
+
+@mod.route('/parking_info',methods=["GET",])
+def parking_info():
+    setExits()
+    
+    return "No Parking info yet"
+    
+@mod.route('/display_info',methods=["GET",])
+def display_info():
+    setExits()
+    
+    return "No display info yet"
+    
 def get_nav_context():
     
     parking_list = None
     display_list = None
     
-    cat = Category(g.db).select_one(where="lower(name) = 'display'")
+    cat = Category(g.db).select_one(where="lower(name) = 'parking rack'")
     if cat:
         parking_list = Product(g.db).select(where='cat_id = {}'.format(cat.id))
+    cat = Category(g.db).select_one(where="lower(name) = 'display rack'")
+    if cat:
+        display_list = Product(g.db).select(where='cat_id = {}'.format(cat.id))
     
     return parking_list, display_list
     

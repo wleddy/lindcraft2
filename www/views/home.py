@@ -3,7 +3,7 @@ from flask import request, session, g, redirect, url_for, abort, \
 from users.admin import login_required, table_access_required
 from takeabeltof.utils import render_markdown_for
 from datetime import datetime
-from lindcraft.views import catelog
+from lindcraft.views import catalog
 
 mod = Blueprint('www',__name__, template_folder='../templates', url_prefix='')
 
@@ -22,7 +22,7 @@ def home():
     #rendered_html = render_markdown_for(__file__,mod,'index.md')
     #
     #return render_template('markdown.html',rendered_html=rendered_html,)
-    return catelog.display_intro()
+    return catalog.home()
 
 
 @mod.route('/about', methods=['GET',])
