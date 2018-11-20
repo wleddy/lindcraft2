@@ -21,6 +21,36 @@ class Category(SqliteTable):
         """Create the table and initialize data"""
         self.create_table()
 
+    def is_active(self,cat_id):
+        """return True if there is at least one active product in this category"""
+        
+        sql = """
+            select m.id from model as m
+            join product as p on m.prod_id = p.id
+            where m.active = 1 and p.cat_id = {}
+        """.format(cleanRecordID(cat_id))
+        #import pdb;pdb.set_trace()
+        recs = self.db.execute(sql).fetchall()
+        if recs:
+            return True
+            
+        return False
+        
+    def select_active(self,**kwargs):
+        """Return a namedlist of category recs that have at least one active model"""
+    
+        where = kwargs.get('where',1)
+        order_by = kwargs.get('order_by',self.order_by_col)
+        sql = """
+        select distinct c.* from category as c
+        join product as p on c.id = p.cat_id
+        join model on model.prod_id = p.id
+        where {} and model.active = 1
+        order by {}
+        """.format(where,order_by)
+    
+        return self.select_raw(sql)
+    
 
 class Product(SqliteTable):
     """A Product is a style of rack etc. It will have one or more models that
@@ -51,6 +81,19 @@ class Product(SqliteTable):
         """Create the table and initialize data"""
         self.create_table()
 
+    def select_active(self,**kwargs):
+        """Return a namedlist of product recs that have at least one active model"""
+        
+        where = kwargs.get('where',1)
+        order_by = kwargs.get('order_by',self.order_by_col)
+        sql = """
+        select distinct p.* from product as p
+        join model on model.prod_id = p.id
+        where {} and model.active = 1
+        order by {}
+        """.format(where,order_by)
+        
+        return self.select_raw(sql)
 
 class Model(SqliteTable):
     """A product item has one or more Models or versions of the product"""
@@ -83,6 +126,19 @@ class Model(SqliteTable):
     def init_table(self):
         """Create the table and initialize data"""
         self.create_table()
+        
+    def select_active(self,**kwargs):
+        """Return a list of named list objects but only active models"""
+        where = kwargs.get('where',"")
+        if len(where) > 0:
+            where += " and active = 1 "
+        else:
+            where = " active = 1 "
+            
+        kwargs.update({'where':where})
+        return super().select(**kwargs)
+        
+            
 
     def update(self,rec,form,save=False):
         """The active field needs to be an int"""
