@@ -11,8 +11,8 @@
 		</tr>
 		{% for rec in recs %}
 	    <tr>
-			<td style="min-width:100px;"><a href="{{ g.editURL }}{{ rec.id }}/">{{ rec.name }}</a></td>
-			<td style="min-width:180px;">{{ rec.desc }}</td>
+			<td style="min-width:100px;"><a href="{{ g.editURL }}{{ rec.id }}/">{{ rec.name | truncate(20) }}</a></td>
+			<td style="min-width:180px;">{{ rec.desc | truncate(80)}}</td>
 		</tr>
 		{% endfor %}
 	  </table>
