@@ -36,9 +36,9 @@
     </p>
     <p><span>Price Change Date: </span><input type="date" size="20" required name="price_change_date" value="{{ rec.price_change_date|default('',True )|short_date_string}}" /></p>
     <p><span>Active:</span>
-        <input type="radio" name="active" value="1" {% if rec.active == 1 %} checked="checked" {%endif%} />Active
+        <label><input type="radio" name="active" value="1" {% if rec.active == 1 %} checked="checked" {%endif%} />Active</label>
         &nbsp;&nbsp;
-        <input type="radio" name="active" value="0" {% if rec.active != 1 %} checked="checked" {%endif%} />Inactive
+        <label><input type="radio" name="active" value="0" {% if rec.active != 1 %} checked="checked" {%endif%} />Inactive</label>
         
     </p>
 </fieldset>
