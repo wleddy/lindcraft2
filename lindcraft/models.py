@@ -146,6 +146,9 @@ class Model(SqliteTable):
         if type(rec.active) is str or type(rec.active) is float:
             rec.active = int(rec.active)
             
+            if save:
+                self.save(rec)
+            
             
 def init_db(db):
     """Create a intial database."""
