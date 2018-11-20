@@ -29,7 +29,7 @@
 	{% include "flasher.html" %}
 	{% block body %}{% endblock %} 
     {% if g.view_catalog %}
-        {% block nav %}{% endblock %}
+        {% block nav %}{% include "nav.html" %}{% endblock %}
         <div class="content">
             <div id="stage">
                 {% block content %}{% endblock %}

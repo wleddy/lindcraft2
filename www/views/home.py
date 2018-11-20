@@ -13,7 +13,8 @@ def setExits():
     g.aboutURL = url_for('.about')
     g.contactURL = url_for('.contact')
     g.title = 'Home'
-
+    g.view_catalog = True
+    
 @mod.route('/')
 def home():
     setExits()
@@ -32,7 +33,7 @@ def about():
     
     rendered_html = render_markdown_for(__file__,mod,'about.md')
             
-    return render_template('markdown.html',rendered_html=rendered_html)
+    return render_template('about.html',rendered_html=rendered_html)
 
 
 @mod.route('/contact', methods=['POST', 'GET',])

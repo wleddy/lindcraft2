@@ -5,7 +5,7 @@ from takeabeltof.utils import printException, cleanRecordID
 from datetime import datetime
 from lindcraft.models import Product, Category,  Model
 
-mod = Blueprint('category',__name__, template_folder='../templates/lindcraft', url_prefix='/cat')
+mod = Blueprint('category',__name__, template_folder='../templates/lindcraft/admin', url_prefix='/cat')
 
 
 def setExits():

@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}{{g.title}}{% endblock %}
-{% block body %}
+{% block content %}
 
 <h2>Contact Us</h2>
 {% if show_form %}
@@ -17,10 +17,10 @@
         <p><span>Email Address</span><input type="text" size="50" required name="email" value="{{ context['email']}}" id="email" /></p>
         <p><span>Phone</span><input type="text" size="50"  name="phone" value="{{ context['phone']}}" id="phong" /></p>
         <p><span>Company Name</span><input type="text" size="50"  name="company_name" value="{{ context['company_name']}}" id="company_name" /></p>
-        <p><span>Address</span></p>
-        <textarea name="address"  rows="2" cols="40" >{{ context['address'] }}</textarea>
-        <p><span>Question, Comment:</span></p>
-        <textarea name="comment" rows="8" cols="40" required >{{ context['comment'] }}</textarea>        
+        <p><span>Address</span>
+        <textarea name="address"  rows="2" cols="40" >{{ context['address'] }}</textarea></p>
+        <p><span>Question, Comment:</span>
+        <textarea name="comment" rows="8" cols="60" required >{{ context['comment'] }}</textarea></p>
     </fieldset>
 
     <p><input type="submit" value="Send">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/">Cancel</a></p>
@@ -32,4 +32,4 @@
 
 {% endif %}
 
-{% endblock body%}
+{% endblock content%}
