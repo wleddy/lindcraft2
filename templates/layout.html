@@ -10,9 +10,10 @@
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='apple-touch-icon-114.png') }}"><!-- Opera Speed Dial, at least 144×114 px -->
     
 	<link rel=stylesheet type=textcss href="{{ url_for('static', filename='css/style.css') }}">
+    {% if g.view_catalog %}
 	<link rel="stylesheet" href="{{ url_for('static',filename='css/lindcraft.css') }}" type="textcss" media="all" >
 	<link rel="stylesheet" href="{{ url_for('static',filename='css/lindcraft.print.css') }}" type="textcss" media="print" >
-	
+	{% endif %}
     {% if False %}
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script src="{{ url_for('static', filename='common.js') }}"></script>
@@ -24,16 +25,18 @@
 <div id="contain">
     <div id="dialog"></div><div id="modal-form-contain"><div id="modal-form"></div></div>
     {% include "header.html"%}
-    {% block top_nav %}{% include "top-nav.html"%}{% endblock %}
+    {% include "top-nav.html"%}
 	{% include "flasher.html" %}
 	{% block body %}{% endblock %} 
-    {% block nav %}{% endblock %}
-    <div class="content">
-        <div id="stage">
-            {% block content %}{% endblock %}
+    {% if g.view_catalog %}
+        {% block nav %}{% endblock %}
+        <div class="content">
+            <div id="stage">
+                {% block content %}{% endblock %}
+            </div>
         </div>
-    </div>
-    {% include "footer.html"%}
+        {% include "footer.html"%}
+    {% endif %}
 </div>
 </body>
 </html>

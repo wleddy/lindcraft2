@@ -38,6 +38,9 @@ def _before():
         
     get_db()
     
+    # Change styling when displaying catalog
+    g.view_catalog = False # set to true when you want the special styling
+    
     # Is the user signed in?
     g.user = None
     if 'user' in session:
@@ -59,7 +62,6 @@ def _before():
         g.admin.register(Role,url_for('role.display'),display_name='Roles',minimum_rank_required=1000)
         g.admin.register(Pref,url_for('pref.display'),display_name='Prefs',minimum_rank_required=1000)
         
-
 
 @app.teardown_request
 def _teardown(exception):

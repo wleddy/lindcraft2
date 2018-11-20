@@ -11,6 +11,7 @@ def setExits():
     #g.editURL = url_for('.edit')
     #g.deleteURL = url_for('.delete')
     g.title = 'Catelog'
+    g.view_catalog = True
 
 @mod.route('/',methods=["GET",])
 def display_intro():
