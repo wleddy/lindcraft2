@@ -2,6 +2,9 @@
     <div id="nav">
         <p id="mobile-menu-header" class="menu-item dropdown" onclick="" >Menu</p>
         <div id="mobile-menu-contain">
+            <div>
+                <p class="menu-item" ><a href="/">Home</a></p>
+            </div>
             <div onclick="" id="profile-menu" class="dropdown">
                 <p class="dd-menu-header">
                     {% if g.user %}My Profile{% else %}<a href="{{ url_for('login.login')}}" >Login</a>{% endif %}
