@@ -2,7 +2,7 @@ from flask import request, session, g, redirect, url_for, abort, \
      render_template, flash, Blueprint, Response
 from users.admin import login_required, table_access_required
 from takeabeltof.utils import printException, cleanRecordID
-from date_utils import getDatetimeFromString, local_datetime_now
+from takeabeltof.date_utils import getDatetimeFromString, local_datetime_now
 from lindcraft.models import Product, Category,  Model
 
 mod = Blueprint('model',__name__, template_folder='../templates/lindcraft/admin', url_prefix='/model')
