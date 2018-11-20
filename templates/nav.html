@@ -6,7 +6,7 @@
 	<div class="catalog-nav_image_group" >
 		<p>
 			{% for product in display_list %}
-			<a href="{{ url_for( 'catalog.product') }}/{{ product.id }}/"  title="{{ product.name }}">
+			<a href="{{ url_for( 'catalog.product') }}{{ product.id }}/"  title="{{ product.name }}">
                 <img class="catalog-nav_image" src="static/{{ product.image_path}}" 
                 alt="{{ product.name }}">
             </a>
@@ -21,7 +21,7 @@
 	<div class="catalog-nav_image_group" >
 		<p>
 			{% for product in parking_list %}
-			<a href="{{ url_for( 'catalog.product') }}/{{ product.id }}/"  title="{{ product.name }}">
+			<a href="{{ url_for( 'catalog.product') }}{{ product.id }}/"  title="{{ product.name }}">
                 <img class="catalog-nav_image" src="static/{{ product.image_path }}" 
                 alt="{{ product.name }}">
             </a>
