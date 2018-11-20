@@ -24,7 +24,13 @@ def home():
     #return render_template('markdown.html',rendered_html=rendered_html,)
     return catalog.home()
 
-
+@mod.route('/admin', methods=['GET',])
+@mod.route('/admin/', methods=['GET',])
+def admin_login():
+    #Steve is used to entering 'admin' to get to the login page...
+    return redirect(url_for('login.login'))
+    
+    
 @mod.route('/about', methods=['GET',])
 @mod.route('/about/', methods=['GET',])
 def about():
