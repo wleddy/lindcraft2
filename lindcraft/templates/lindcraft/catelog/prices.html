@@ -1,0 +1,23 @@
+{% extends "id.html" %}
+
+{% comment %} prices.html {% endcomment %}
+
+{% block content %}
+	<h1>Lindcraft Display Racks</h1>
+	<h2>Price List</h2>
+	<p class="priceListNotes bold">
+	    <span class="printScript noprint" onclick="window.print()"><span class="scriptLink">(Print)</span><br /></span>
+		800-326-0965 <br>
+		Fax 916-985-7731 <br>
+		P.O. Box 435 Folsom, CA 95763 
+	</p>
+	<div id="pricelistContain">
+		{% include 'priceTable.html' %}
+	</div>
+	<p class="priceListNotes">
+		<u>*BMX Racks made on request</u><br>
+		Prices Effective {{ effectiveDate|date:"F j, Y" }}. Subject to Change Without Notice. <br>
+		Freight F.O.B. Folsom, CA 95630 <br>
+		Note: Add three feet to length when figuring floor space.
+	</p>
+{% endblock %}

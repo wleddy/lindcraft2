@@ -1,3 +1,4 @@
-## Tell me what's on your mind!
+So, you don't see exactly what you'd like, or maybe you need a quote on  
+a showroom full of racks. 
 
-Please fill out the form below and give me the skinny.
+Whatever you need, we're here to help.

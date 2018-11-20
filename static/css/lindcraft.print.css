@@ -1,0 +1,77 @@
+/*  Lindcraft.print.css 
+    Printing overides
+*/
+
+p {line-height:1;}
+
+h1, h2, h3, h4, h5 {
+    text-align:center;
+    margin-left:0;
+    margin-right:0;
+}
+
+a {
+    color:black;
+}
+
+.noprint, .no-print {display:none;}
+
+#head, .content {
+    width:8in;
+	margin-top:0;
+	margin-left:auto;
+	margin-right:auto;
+}
+#logoblock {
+    width:4in;
+    margin: 0 auto 0 auto;
+}
+#logoblock h2 {
+    font-size:13pt;
+    margin:0;
+}
+
+#bikelogo {
+    height:52pt;
+    width:72pt;
+}
+
+#lcrlogo {
+    height:36pt;
+    width:145pt;
+}
+
+.contactLink {
+    display:none;
+}
+.contactPrint {
+    display:inline;
+}
+
+#stage {
+    border:0;
+    margin-right:auto;
+    margin-left:auto;
+    padding-top:2pt;
+}
+#stage h1, #stage h2 {
+    margin:2pt 0 0 0;
+}
+
+
+table.priceTable{
+	width:5in;
+}
+table.priceTable td, table.priceTable th{
+	font-size:8pt;
+    line-height:1;
+}
+
+table.priceTable td.priceTableGroup{
+    padding-top:2pt;
+}
+
+p.priceListNotes {
+    font-size:10pt;
+    padding-top:2pt;
+}

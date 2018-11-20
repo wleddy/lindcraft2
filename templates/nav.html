@@ -1,0 +1,52 @@
+<div class="catalog-nav noprint" >
+    {% if display_list %}
+	<div  class="catalog-nav_background">
+		<p><a href="{{ url_for( 'cat.display_info' ) }}" >Display Racks</a></p>
+	</div>
+	<div class="catalog-nav_image_group" >
+		<p>
+			{% for product in display_list %}
+			<a href="{{ url_for( 'cat.product') }}/{{ product.id }}/"  title="{{ product.name }}">
+                <img class="catalog-nav_image" src="static/{{ product.image_path}}" 
+                alt="{{ product.name }}">
+            </a>
+			{% endfor %}
+		</p>
+	</div>
+    {% endif %}
+    {% if parking_list %}
+	<div class="catalog-nav_background">
+		<p><a href="{{ url_for( 'cat.parkingInfo') }}" >Parking Racks</a></p>
+	</div>
+	<div class="catalog-nav_image_group" >
+		<p>
+			{% for product in parking_list %}
+			<a href="{{ url_for( 'cat.product') }}/{{ product.id }}/"  title="{{ product.name }}">
+                <img class="catalog-nav_image" src="{{ url_for('static') }}{{ product.image_path }}" 
+                alt="{{ product.name }}">
+            </a>
+			{% endfor %}
+		</p>
+	</div>
+    {% endif %}
+	<div class="catalog-nav_background">
+		<div >
+			<p><a href="{{ url_for( 'cat.prices') }}" >Price List</a></p>
+		</div>
+	</div>
+
+
+	<div class="catalog-nav_background">
+		<div >
+			<p><a href="{{ url_for( 'www.contact') }}" >Special Quotes</a></p>
+		</div>
+	</div>
+
+
+	<div class="catalog-nav_background">
+		<div >
+			<p><a href="{{ url_for( 'www.about') }}" >About Lindcraft</a></p>
+		</div>
+	</div>
+
+</div>

@@ -13,9 +13,13 @@
 
 <form action="{{ g.contactURL }}" method="post" accept-charset="utf-8">
     <fieldset>
-        <p><span>Name</span><input type="text" size="50" name="name" required value="{{ context['name']}}" id="name" /></p>
+        <p><span>Your Name</span><input type="text" size="50" name="name"  value="{{ context['name']}}" id="name" /></p>
         <p><span>Email Address</span><input type="text" size="50" required name="email" value="{{ context['email']}}" id="email" /></p>
-        <p><span>Question, Comment, Condemnation:</span></p>
+        <p><span>Phone</span><input type="text" size="50"  name="phone" value="{{ context['phone']}}" id="phong" /></p>
+        <p><span>Company Name</span><input type="text" size="50"  name="company_name" value="{{ context['company_name']}}" id="company_name" /></p>
+        <p><span>Address</span></p>
+        <textarea name="address"  rows="2" cols="40" >{{ context['address'] }}</textarea>
+        <p><span>Question, Comment:</span></p>
         <textarea name="comment" rows="8" cols="40" required >{{ context['comment'] }}</textarea>        
     </fieldset>
 

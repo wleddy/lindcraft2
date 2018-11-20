@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+    <title>{% block title %}Welcome{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ mediaURL }}images/bikes.png" >
+    <link rel="SHORTCUT ICON" type="image/vnd.microsoft.icon" href="{{ mediaURL }}images/bikes.ico" >
+	{% block js %}<script type="text/javascript" src="{{ mediaURL }}/js/jquery.latest.js" ></script>{% endblock %}
+	{% block css %}
+	<link rel="stylesheet" href="{{ mediaURL }}css/Lindcraft.css" type="textcss" media="all" >
+	<link rel="stylesheet" href="{{ mediaURL }}css/Lindcraft.print.css" type="textcss" media="print" >
+	{% endblock %}
+</head>
+<body>
+    <div id="head">
+    	{% block head1 %}{% endblock %}
+	    {% block head2 %}{% endblock %}
+	    {% block head3 %}{% endblock %}
+    </div>
+    {% block nav %}{% endblock %}
+    {% block section1 %}{% endblock %}
+    {% block section2 %}{% endblock %}
+    {% block content %}{% endblock %}
+    {% block section3 %}{% endblock %}
+    {% block section4 %}{% endblock %}
+    <div id="foot">
+		{% block footer3 %}{% endblock %}
+	    {% block footer2 %}{% endblock %}
+	    {% block footer1 %}{% endblock %}
+	    {% block footer %}{% endblock %}
+    </div> <!-- foot -->
+{% block googleAnalytics  %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,48 @@
+<table class="priceTable">
+	<tr>
+		<th class="center">
+			Model
+		</th>
+		<th class="center">
+			Length
+		</th>
+		<th class="center">
+			#&nbsp;Bikes 
+		</th>
+		<th class="right">
+			Price
+		</th>
+	</tr>
+	{% regroup model_list by product as grouped %}
+	{% for group in grouped %}
+		{% if showGroups  %}
+		<tr>
+			<td class="priceTableGroup">{{ group.grouper }}</td>
+		</tr>
+		{% endif %}
+		{% for model in group.list %}
+		<tr >
+			<td class="left dotleader">
+				<span class="noDotLeader">{{ model.model }} {{ model.desc }}</span>
+			</td>
+			<td class="center">
+				{{ model.size|escape }}
+			</td>
+			<td class="center">
+			    {% ifnotequal  model.bikeCnt 0  %}
+				{{ model.bikeCnt }} 
+				{% else %}
+				--
+			    {% endifnotequal %}
+			</td>
+			<td class="right">
+				{% if model.price %}
+				${{ model.price|floatformat:"2" }}
+				{% else %}
+				Call&nbsp;for&nbsp;Pricing
+				{% endif %} 
+			</td>
+		</tr>
+		{% endfor %}
+	{% endfor %}
+</table>

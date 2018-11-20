@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% block nav%}{% include 'nav.html' %}{% endblock nav %}
+
+{% block content %}
+	<h1>Lindcraft Display Racks</h1>
+	<div style="text-align:center;border:4pt green ridge;background-color:white;padding:4pt;width:90%;margin:0 auto 10pt auto;">
+		<p style="color:red;font-size:36pt;font-weight:bold;line-height:1;margin:.4em 0 0 0;padding-left:0;text-align:center;">
+			Bring on the FAT BOYS!
+		</p>
+		<p style="padding-left:0;text-align:center;">
+			By popular demand, Lindcraft is happy to announce two important updates to our products...
+		</p>
+	</div>
+	<div>
+		<h2>L-9AA Adjustable Floor Stand</h2>
+		<div style="float:left;width:300px;margin-left:10px;">
+			<img style="width:290px;" src="{{ url_for('static', filename='images/products/PL9AA-2.jpg')}}" alt="L-9AA Adjustable Floor Stand"/>
+		</div>
+		<p>
+			The Lindcraft L-9AA is the adjustable version of our classic floor stand. The difference
+			is that these new stands are adjustable to accommodate ANY width of tire!
+		</p>
+		<p>
+			They are available in both Angled and Straight versions. <a href="{{ url_for( 'cat.product') }}10/">Get the Details.</a>
+		</p>
+	</div>
+	<p class="clearer" ></p>
+	<hr  >
+	<div>
+		<h2>WIDE BIKE CHANNEL FOR L-7 &amp; L-8 SLOPING RACKS</h2>
+		<div style="float:left;width:300px;margin-left:10px;">
+			<img style="width:290px;" src="{{ url_for('static', filename='images/L7_2016ChanelCompare.jpg') }}" alt="Wide Channel Comparison" />
+		</div>
+		<p>
+			The Lindcraft Wide Bike Channel was designed to accommodate plus-size tires up to 3.25" wide, 
+			while still maintaining compatibility with road and mountain bike tires. The Wide Bike Channel 
+			offers the greatest flexibility on a Lindcraft rack by allowing road, mountain, and plus-size 
+			bikes to be displayed interchangeably.
+		</p>
+		<p>
+			Wide Bike Channels are available as a $10 per bike upgrade when ordering new L-7 &amp; L-8 Sloping Racks. 
+			The Wide Bike Channels can be purchased individually for $58 each and installed in older Sloping Racks as well.
+			(Upgrade channels include larger wheel hook)
+		</p>
+		<p>
+			Classic Bike Channels are recommended for displaying road and traditional mountain bikes only.
+		</p>
+		<p>
+			<a href="{{ url_for( 'cat.product') }}1/">Get details for L-7 twp tier racks</a> <br /> 
+            <a href="{{ url_for( 'cat.product') }}5/">Get details for L-8 three tier racks</a>
+		</p>
+	</div>
+	<p class="clearer" ></p>
+	<hr>
+	<h2>Why Lindcraft Racks Are Better</h2>
+	<p >
+		Lindcraft racks are angled 30 degrees to the right for maximum visibility.
+		This allows the handlebars to overlap without touching. We use quality anodized 
+		aluminum extrusions whenever possible and powder coat all steel components. 
+		Lindcraft racks are a neutral dark bronze color so as not to detract from the 
+		bicycles they display. Our floor racks are black. 
+	</p>
+	<p>
+		We offer several styles, and custom sizes are available. If you have a special
+		requirement or a question, we'll be happy to give you a <a href="{{ url_for( 'www.contact') }}" >special quote</a>. 
+		If you'd prefer, send an email from our <a href="{{ url_for( 'www.contact') }}">Contact Form</a> 
+	</p>
+{% endblock %}

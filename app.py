@@ -77,10 +77,11 @@ app.register_blueprint(login.mod)
 app.register_blueprint(role.mod)
 app.register_blueprint(pref.mod)
 
-from lindcraft.views import product, category, model
+from lindcraft.views import product, category, model, catelog
 app.register_blueprint(category.mod)
 app.register_blueprint(product.mod)
 app.register_blueprint(model.mod)
+app.register_blueprint(catelog.mod)
 
 if __name__ == '__main__':
     with app.app_context():

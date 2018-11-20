@@ -1,0 +1,18 @@
+{% extends "id.html" %}
+
+{% block content %}
+	<h1>{{ pageName }}</h1>
+	{% if model_list %}
+		<div class="productDesc">
+				<p class="productImage"><img src="{{ mediaURL }}{{ prodImage }}" alt="Picture of {{ prodName }}" ></p>
+					{{ prodDesc|linebreaks }} 
+					<p class="noprint">Get the <a href="{{ mediaURL }}/docs/Lindcraft Assembly Instructions.pdf" >Assembly Instructions</a> here.</p>
+			</div>
+	<div id="productPriceTableContain" >
+		<h2>Prices</h2>
+		{% include 'priceTable.html' %}
+	</div>
+	{% else %}
+		<h2>Please <a href="/contact" >contact us</a> for pricing.</h2>
+	{% endif %}
+{% endblock %}
