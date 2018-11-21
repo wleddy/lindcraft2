@@ -6,7 +6,7 @@
 	<div class="catalog-nav_image_group" >
 		<p>
 			{% for product in cat['prods'] %}
-			<a href="{{ url_for( 'catalog.product') }}{{ product.id }}/"  title="{{ product.name }}">
+			<a href="{{ url_for( 'catalog.prices') }}{{ product.id }}/"  title="{{ product.name }}">
                 <img class="catalog-nav_image" src="/static/{{ product.image_path}}" 
                 alt="{{ product.name }}">
             </a>

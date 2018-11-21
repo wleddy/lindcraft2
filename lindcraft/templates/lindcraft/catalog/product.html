@@ -1,18 +1,21 @@
-{% extends "id.html" %}
+{% extends "layout.html" %}
 
+{% set model = price_list[0]['models'][0] %}
+{% set product = price_list[0]['product'] %}
 {% block content %}
-	<h1>{{ pageName }}</h1>
-	{% if model_list %}
+	<h1>{{ product.name }}</h1>
+	{% if price_list %}
 		<div class="productDesc">
-				<p class="productImage"><img src="{{ mediaURL }}{{ prodImage }}" alt="Picture of {{ prodName }}" ></p>
-					{{ prodDesc|linebreaks }} 
-					<p class="noprint">Get the <a href="{{ mediaURL }}/docs/Lindcraft Assembly Instructions.pdf" >Assembly Instructions</a> here.</p>
+				<p class="productImage"><img src="/static/{{product.image_path}}" alt="Picture of {{ product.name }}" ></p>
+					{{ product_desc_html | safe }} 
+					<p class="noprint">Get the <a href="/static/docs/Lindcraft Assembly Instructions.pdf" >Assembly Instructions</a> here.</p>
 			</div>
 	<div id="productPriceTableContain" >
 		<h2>Prices</h2>
-		{% include 'priceTable.html' %}
+		{% include 'price_table.html' %}
+        <p style="text-align:center;">Prices Effective {{ effective_date | short_date_string }}</p>
 	</div>
 	{% else %}
-		<h2>Please <a href="/contact" >contact us</a> for pricing.</h2>
+		<h2>Please <a href="{{ url_for('www.contact')}}" >contact us</a> for pricing.</h2>
 	{% endif %}
 {% endblock %}

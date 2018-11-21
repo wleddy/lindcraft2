@@ -84,12 +84,16 @@ class Product(SqliteTable):
     def select_active(self,**kwargs):
         """Return a namedlist of product recs that have at least one active model"""
         
-        where = kwargs.get('where',1)
+        where = kwargs.get('where',"")
+        if len(where.strip()) > 0:
+            where += " and "
+        where += ' active = 1 '
+            
         order_by = kwargs.get('order_by',self.order_by_col)
         sql = """
         select distinct p.* from product as p
         join model on model.prod_id = p.id
-        where {} and model.active = 1
+        where {}
         order by {}
         """.format(where,order_by)
         
@@ -129,17 +133,17 @@ class Model(SqliteTable):
         
     def select_active(self,**kwargs):
         """Return a list of named list objects but only active models"""
-        where = kwargs.get('where',"")
-        if len(where) > 0:
-            where += " and active = 1 "
-        else:
-            where = " active = 1 "
+        where = kwargs.get('where','')
+        order_by = kwargs.get('order_by',self.order_by_col)
+
+        #import pdb;pdb.set_trace()
+        if len(where.strip()) > 0:
+            where += " and "
+        where += ' active = 1 '
             
-        kwargs.update({'where':where})
+        kwargs.update({'where':where,'order_by':order_by,})
         return super().select(**kwargs)
         
-            
-
     def update(self,rec,form,save=False):
         """The active field needs to be an int"""
         super().update(rec,form,save)

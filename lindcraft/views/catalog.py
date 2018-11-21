@@ -1,6 +1,6 @@
 from flask import request, session, g, redirect, url_for, abort, \
      render_template, flash, Blueprint, Response
-from takeabeltof.utils import printException, cleanRecordID
+from takeabeltof.utils import printException, cleanRecordID, render_markdown_text
 from lindcraft.models import Product, Category,  Model
 
 mod = Blueprint('catalog',__name__, template_folder='../templates/lindcraft/catalog')
@@ -17,22 +17,6 @@ def home():
             
     return render_template('home.html',)
     
-    
-@mod.route('/product',methods=["GET",])
-@mod.route('/product/',methods=["GET",])
-@mod.route('/product/<prod_id>',methods=["GET",])
-@mod.route('/product/<prod_id>/',methods=["GET",])
-def product(prod_id=0):
-    setExits()
-    g.title = 'Product'
-    prod_id = cleanRecordID(prod_id)
-    if prod_id > 0:
-        return "No Products Yet"
-    elif prod_id == 0:
-        return "Here is a list of all products"
-
-    # Not a valid request
-    return abort(400)
         
 @mod.route('/prices',methods=["GET",])
 @mod.route('/prices/',methods=["GET",])
@@ -40,17 +24,28 @@ def product(prod_id=0):
 @mod.route('/prices/<prod_id>/',methods=["GET",])
 def prices(prod_id=0):
     setExits()
-    g.title = 'Prices'
+    product_desc_html = ''
     prod_id = cleanRecordID(prod_id)
-    if prod_id > 0:
-        return "No Prices Yet"
-    elif prod_id == 0:
-        return "Here is a list of all prices for all products"
+    price_list = get_price_list(prod_id)
+    show_groups = True
+    effective_date = get_effective_date()
+    if price_list:
+        if prod_id <= 0:
+            # Price List
+            g.title = 'Price List'
+            template = 'prices.html'
+            
+        else:
+            # Prices for a single product
+            g.title = price_list[0]['product'].name
+            show_groups = False
+            template = 'product.html'
+            product_desc_html = render_markdown_text(price_list[0]['product'].desc)
+        return render_template(template,price_list=price_list,show_groups=show_groups,effective_date=effective_date,product_desc_html=product_desc_html,)
+            
+    flash('Could not find that product')
+    return redirect(url_for('.home'))
         
-    # Not a valid request
-    return abort(400)
-
-
 
 @mod.route('/parking_info',methods=["GET",])
 def parking_info():
@@ -80,5 +75,38 @@ def get_nav_html():
         
         
     return render_template('nav.html',cat_list=cat_list)
+    
+    
+def get_price_list(prod_id=0):
+    """Return a list of dicts with product and model for price list"""
+    #import pdb;pdb.set_trace()
+    prod_id = cleanRecordID(prod_id)
+    prod_list = []
+    #Get a selection of products with active models associated
+    where = ''
+    if prod_id > 0:
+        where = "p.id = {}".format(prod_id,)
+            
+    products = Product(g.db).select_active(where=where)
+    for product in products:
+        # Get selection of active products for this category
+        where = 'prod_id = {}'.format(product.id)
+        models = Model(g.db).select_active(where=where)
+        if models:
+            prod_list.append({'product':product,'models':models,})
+    
+    
+    return prod_list
+    
+    
+def get_effective_date():
+    """Return the most recent price update date from all models"""
+    
+    models = Model(g.db).select_one(order_by = 'price_change_date DESC ')
+    if models:
+        return models.price_change_date
+        
+    return local_datetime_now() #default to today
+    
     
         

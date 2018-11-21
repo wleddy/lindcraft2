@@ -9,35 +9,38 @@
 		<th class="center">
 			#&nbsp;Bikes 
 		</th>
-		<th class="right">
+		<th class="center">
 			Price
 		</th>
 	</tr>
-	{% regroup model_list by product as grouped %}
-	{% for group in grouped %}
-		{% if showGroups  %}
+	{% for product in price_list %}
+		{% if show_groups  %}
 		<tr>
-			<td class="priceTableGroup">{{ group.grouper }}</td>
+			<td class="priceTableGroup">{{ product['product'].name }}</td>
 		</tr>
 		{% endif %}
-		{% for model in group.list %}
+		{% for model in product['models'] %}
 		<tr >
 			<td class="left dotleader">
 				<span class="noDotLeader">{{ model.model }} {{ model.desc }}</span>
 			</td>
 			<td class="center">
-				{{ model.size|escape }}
+                {%if model.size %}
+				{{ model.size| default('',True) }}
+                {% else %}
+                --
+                {% endif %}
 			</td>
 			<td class="center">
-			    {% ifnotequal  model.bikeCnt 0  %}
+			    {% if model.bikeCnt  %}
 				{{ model.bikeCnt }} 
 				{% else %}
 				--
-			    {% endifnotequal %}
+			    {% endif %}
 			</td>
 			<td class="right">
 				{% if model.price %}
-				${{ model.price|floatformat:"2" }}
+				${{ model.price| money }}
 				{% else %}
 				Call&nbsp;for&nbsp;Pricing
 				{% endif %} 
