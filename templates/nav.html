@@ -1,11 +1,11 @@
 <div class="catalog-nav noprint" >
-    {% if display_list %}
+    {% for cat in cat_list %}
 	<div  class="catalog-nav_background">
-		<p><a href="{{ url_for( 'catalog.display_info' ) }}" >Display Racks</a></p>
+		<p><a href="{{ url_for( 'catalog.display_info' ) }}" >{{cat['cat'].name}}</a></p>
 	</div>
 	<div class="catalog-nav_image_group" >
 		<p>
-			{% for product in display_list %}
+			{% for product in cat['prods'] %}
 			<a href="{{ url_for( 'catalog.product') }}{{ product.id }}/"  title="{{ product.name }}">
                 <img class="catalog-nav_image" src="static/{{ product.image_path}}" 
                 alt="{{ product.name }}">
@@ -13,22 +13,8 @@
 			{% endfor %}
 		</p>
 	</div>
-    {% endif %}
-    {% if parking_list %}
-	<div class="catalog-nav_background">
-		<p><a href="{{ url_for( 'catalog.parking_info') }}" >Parking Racks</a></p>
-	</div>
-	<div class="catalog-nav_image_group" >
-		<p>
-			{% for product in parking_list %}
-			<a href="{{ url_for( 'catalog.product') }}{{ product.id }}/"  title="{{ product.name }}">
-                <img class="catalog-nav_image" src="static/{{ product.image_path }}" 
-                alt="{{ product.name }}">
-            </a>
-			{% endfor %}
-		</p>
-	</div>
-    {% endif %}
+    {% endfor %}
+
 	<div class="catalog-nav_background">
 		<div >
 			<p><a href="{{ url_for( 'catalog.prices') }}" >Price List</a></p>

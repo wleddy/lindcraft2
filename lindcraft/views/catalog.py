@@ -14,11 +14,18 @@ def setExits():
 def home():
     setExits()
     
-    parking_list = None
-    display_list = None
-    parking_list, display_list = get_nav_context()
-    
-    return render_template('home.html',display_list=display_list,parking_list=parking_list)
+    #Create a list to hold a dict of Cat and Product Data for nav display
+    cat_list = []
+    #Get a selection of categories with active models associated
+    cats = Category(g.db).select_active()
+    for cat in cats:
+        # Get selection of active products for this category
+        prods = Product(g.db).select_active(where="cat_id = {}".format(cat.id,))
+        if prods:
+            cat_list.append({'cat':cat,'prods':prods,})
+        
+        
+    return render_template('home.html',cat_list=cat_list)
     
     
 @mod.route('/product',methods=["GET",])
@@ -66,22 +73,4 @@ def display_info():
     setExits()
     
     return "No display info yet"
-    
-def get_nav_context():
-    
-    parking_list = None
-    display_list = None
-    
-    # THis is ugly as sin, but it works for now. To dependent on the sql in lindcraft.models
-    #.  and it would be better if it returned a single row
-    cat = Category(g.db).select_active(where="lower(c.name) = 'parking rack'")
-    if cat: # and Category(g.db).is_active(cat.id):
-        parking_list = Product(g.db).select_active(where='cat_id = {}'.format(cat[0].id))
         
-    cat = Category(g.db).select_active(where="lower(c.name) = 'display rack'")
-    if cat: # and Category(g.db).is_active(cat.id):
-        display_list = Product(g.db).select_active(where='cat_id = {}'.format(cat[0].id))
-    
-    
-    return parking_list, display_list
-    
