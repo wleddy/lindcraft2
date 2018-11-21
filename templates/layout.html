@@ -30,7 +30,7 @@
 	{% include "flasher.html" %}
 	{% block body %}{% endblock %} 
     {% if g.view_catalog %}
-        {% block nav %}{% include "nav.html" %}{% endblock %}
+        {% block nav %}{% if g.catalog_nav %}{{g.catalog_nav | safe }}{%endif%}{% endblock %}
         <div class="content">
             <div id="stage">
                 {% block content %}{% endblock %}

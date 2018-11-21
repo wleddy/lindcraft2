@@ -14,6 +14,7 @@ def setExits():
     g.contactURL = url_for('.contact')
     g.title = 'Home'
     g.view_catalog = True
+    g.catalog_nav = catalog.get_nav_html()
     
 @mod.route('/')
 def home():
