@@ -5,7 +5,7 @@ from takeabeltof.utils import printException, cleanRecordID
 from takeabeltof.date_utils import getDatetimeFromString, local_datetime_now
 from lindcraft.models import Product, Category,  Model
 
-mod = Blueprint('model',__name__, template_folder='../templates/lindcraft/admin', url_prefix='/model')
+mod = Blueprint('model',__name__, template_folder='../templates/lindcraft/admin', url_prefix='/admin/model')
 
 
 def setExits():

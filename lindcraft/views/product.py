@@ -6,7 +6,7 @@ from datetime import datetime
 from lindcraft.models import Product, Category,  Model
 from lindcraft.views.model import get_model_list_for_product
 
-mod = Blueprint('product',__name__, template_folder='../templates/lindcraft/admin', url_prefix='/products')
+mod = Blueprint('product',__name__, template_folder='../templates/lindcraft/admin', url_prefix='/admin/products')
 
 
 def setExits():
