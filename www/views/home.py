@@ -1,6 +1,7 @@
 from flask import request, session, g, redirect, url_for, abort, \
      render_template, flash, Blueprint, Response
 from users.admin import login_required, table_access_required
+from takeabeltof.date_utils import datetime_as_string
 from takeabeltof.utils import render_markdown_for
 from datetime import datetime
 from lindcraft.views import catalog
@@ -55,19 +56,12 @@ def contact():
     context = {}
     if request.form:
         if request.form['email'] and request.form['comment']:
-            context = request.form
-            context['name'] = request.form['name']
-            #context['email'] = request.form['email']
-            #context['comment'] = request.form['comment']
-            #context['p'] = request.form['comment']
-            #context['comment'] = request.form['comment']
-            #context['comment'] = request.form['comment']
-            #context['comment'] = request.form['comment']
-            #context['date'] = datetime.now().isoformat(sep=" ")
-            #print(context)
+            context.update({'date':datetime_as_string()})
+            for key, value in request.form.items():
+                context.update({key:value})
             send_message(
                 (app.config['CONTACT_NAME'],app.config['CONTACT_EMAIL_ADDR'],),
-                subject = "Comment from {}".format(app.config['SITE_NAME']),
+                subject = "Contact from {}".format(app.config['SITE_NAME']),
                 html_template = "home/email/contact_email.html",
                 context = context,
                 reply_to = request.form['email'],

@@ -1,3 +1,6 @@
+<style>pre {font-family:inherit;}</style>
+
+
 <h2>Contact Request from {{config.SITE_NAME}}</h2>
 <p>The following contact request was made on {{ context['date'] }}</p>
 <p>Name: {{context['name']}}</p>
@@ -5,7 +8,7 @@
 <p>Phone: {{context['phone']}}</p>
 <p>Company Name: {{context['company_name']}}</p>
 <p>Address: </p>
-<p>{{context['address']}}</p>
+<pre>{{context['address'] }}</pre>
 <p>&nbsp;</p>
 <p>Comment:</p>
-<p>{{ context['comment']}}</p>
+<pre>{{ context['comment']  }}</pre>
