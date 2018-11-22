@@ -13,7 +13,7 @@
 	<div id="productPriceTableContain" >
 		<h2>Prices</h2>
 		{% include 'price_table.html' %}
-        <p style="text-align:center;">Prices Effective {{ effective_date | short_date_string }}</p>
+        <p  class="priceListNotes">Prices Effective {{ effective_date | short_date_string }}</p>
 	</div>
 	{% else %}
 		<h2>Please <a href="{{ url_for('www.contact')}}" >contact us</a> for pricing.</h2>
