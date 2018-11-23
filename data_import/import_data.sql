@@ -9,3 +9,13 @@ select * from lindcraft_product;
 select * from lindcraft_model;
 .mode list
 .output
+.print "Switching to new data file"
+.open database.sqlite
+delete from category;
+.read lindcraft_category.sql
+delete from product;
+.read lindcraft_product.sql
+delete from model;
+.read lindcraft_model.sql
+.print "Import complete. Now using file database.sqlite"
+
