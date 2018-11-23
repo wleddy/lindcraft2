@@ -15,6 +15,8 @@ delete from category;
 .read lindcraft_category.sql
 delete from product;
 .read lindcraft_product.sql
+-- remove the leading slash
+update product set image_path = substr(image_path,2);
 delete from model;
 .read lindcraft_model.sql
 .print "Import complete. Now using file database.sqlite"
