@@ -67,11 +67,11 @@ class Product(SqliteTable):
         """Define and create the Product table"""
         
         sql = """
+            cat_id INTEGER,
             name TEXT UNIQUE NOT NULL,
             desc TEXT,
             image_path TEXT,
             display_order INTEGER DEFAULT 0,
-            cat_id INTEGER,
             
             FOREIGN KEY (cat_id) REFERENCES category(id) ON DELETE CASCADE"""
             
@@ -114,14 +114,14 @@ class Model(SqliteTable):
         """Define and create the Model table"""
         
         sql = """
+            prod_id INTEGER,
             model TEXT UNIQUE NOT NULL,
             desc TEXT,
             size TEXT,
             bike_cnt INTEGER DEFAULT 1,
             price NUMBER DEFAULT 0,
-            active NUMBER DEFAULT 1,
             price_change_date DATETIME,
-            prod_id INTEGER,
+            active NUMBER DEFAULT 1,
             
             FOREIGN KEY (prod_id) REFERENCES product(id) ON DELETE CASCADE"""
             
