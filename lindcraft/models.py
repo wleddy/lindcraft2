@@ -42,9 +42,9 @@ class Category(SqliteTable):
         where = kwargs.get('where',1)
         order_by = kwargs.get('order_by',self.order_by_col)
         sql = """
-        select distinct c.* from category as c
-        join product as p on c.id = p.cat_id
-        join model on model.prod_id = p.id
+        select distinct category.* from category
+        join product on category.id = product.cat_id
+        join model on model.prod_id = product.id
         where {} and model.active = 1
         order by {}
         """.format(where,order_by)

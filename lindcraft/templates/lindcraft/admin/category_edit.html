@@ -7,7 +7,10 @@
         <fieldset>
     		<input type=hidden name="id" value="{{rec.id|default('0',True )}}">
             <p><span>Name:</span><input type="text" size="20" name="name" required value="{{ rec.name|default('',True )}}" /></p>
-            <p><span>Display Order:</span><input type="num" size="10" name="display_order" required value="{{ rec.display_order|default('0',True )}}" /></p>
+            <p><span>Display Order:</span>
+                <input type="num" size="10" name="display_order" required value="{{ rec.display_order|default('0',True )}}" />
+                &nbsp;<span style="font-size:80%;font-style:italic;font-weight:normal">(Enter a minus number to hide category in main navigation)</span>
+            </p>
         </fieldset>
     </form>
 {% endblock body %}

@@ -66,7 +66,7 @@ def get_nav_html():
     #Create a list to hold a dict of Cat and Product Data for nav display
     cat_list = []
     #Get a selection of categories with active models associated
-    cats = Category(g.db).select_active()
+    cats = Category(g.db).select_active(where="category.display_order >= 0")
     for cat in cats:
         # Get selection of active products for this category
         prods = Product(g.db).select_active(where="cat_id = {}".format(cat.id,))
