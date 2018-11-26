@@ -12,8 +12,10 @@ TESTING =  False # Set to True to disable email sending when testing
 REQUIRE_SSL = (not DEBUG)
 
 
-CONTACT_EMAIL_ADDR = "bill@williesworkshop.net"
-CONTACT_NAME = "Steve"
+CONTACT_EMAIL_ADDR = "admin@example.com"
+CONTACT_NAME = "Some Name"
+
+REPORT_404_ERRORS = DEBUG
 
 HOST_PROTOCOL = "http"
 if REQUIRE_SSL:
