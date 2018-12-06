@@ -16,7 +16,7 @@
 	{% for product in price_list %}
 		{% if show_groups  %}
 		<tr>
-			<td class="priceTableGroup">{{ product['product'].name }}</td>
+			<td class="priceTableGroup" colspan=3>{{ product['product'].name }}</td>
 		</tr>
 		{% endif %}
 		{% for model in product['models'] %}
