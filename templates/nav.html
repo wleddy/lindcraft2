@@ -3,7 +3,7 @@
     <div id="catalog-menu-contain">
         {% for cat in cat_list %}
     	<div  class="catalog-nav_background">
-    		<p><a href="{{ url_for( 'catalog.display_info' ) }}" >{{cat['cat'].name}}</a></p>
+    		<p><a href="{{ url_for( 'catalog.display_info' ) }}{{ cat['cat'].id }}/" >{{cat['cat'].name}}</a></p>
     	</div>
     	<div class="catalog-nav_image_group" >
     		<p>

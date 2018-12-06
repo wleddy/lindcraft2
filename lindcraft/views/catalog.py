@@ -46,18 +46,27 @@ def prices(prod_id=0):
     flash('Could not find that product')
     return redirect(url_for('.home'))
         
-
-@mod.route('/parking_info',methods=["GET",])
-def parking_info():
+    
+@mod.route('/display_info/',methods=["GET",])
+@mod.route('/display_info/<int:cat_id>',methods=["GET",])
+@mod.route('/display_info/<int:cat_id>/',methods=["GET",])
+def display_info(cat_id=0):
     setExits()
+    cat_id = cleanRecordID(cat_id)
+    if cat_id < 1:
+        abort(404)
+        
+    cat = Category(g.db).get(cat_id)
+    if not cat:
+        abort(404)
+        
+    recs = Product(g.db).select_active(where="cat_id = {}".format(cat_id))
+    if not recs:
+        abort(404)
+        
+    g.title = cat.name
     
-    return "No Parking info yet"
-    
-@mod.route('/display_info',methods=["GET",])
-def display_info():
-    setExits()
-    
-    return "No display info yet"
+    return render_template('display_info.html',recs=recs)
     
     
 def get_nav_html():

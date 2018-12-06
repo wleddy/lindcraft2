@@ -95,6 +95,9 @@ app.register_blueprint(product.mod)
 app.register_blueprint(model.mod)
 app.register_blueprint(catalog.mod)
 
+from lindcraft.jinja_filters import register_jinja_filters as reg_catalog_filters
+reg_catalog_filters(app)
+
 if __name__ == '__main__':
     with app.app_context():
         init_db(get_db())
