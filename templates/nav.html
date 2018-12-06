@@ -1,38 +1,36 @@
 <div class="catalog-nav noprint" >
-    {% for cat in cat_list %}
-	<div  class="catalog-nav_background">
-		<p><a href="{{ url_for( 'catalog.display_info' ) }}" >{{cat['cat'].name}}</a></p>
-	</div>
-	<div class="catalog-nav_image_group" >
-		<p>
-			{% for product in cat['prods'] %}
-			<a href="{{ url_for( 'catalog.prices') }}{{ product.id }}/"  title="{{ product.name }}">
-                <img class="catalog-nav_image" src="/static/{{ product.image_path}}" 
-                alt="{{ product.name }}">
-            </a>
-			{% endfor %}
-		</p>
-	</div>
-    {% endfor %}
+    <p id="catalog-menu-header" onclick="" >Catalog Menu</p>
+    <div id="catalog-menu-contain">
+        {% for cat in cat_list %}
+    	<div  class="catalog-nav_background">
+    		<p><a href="{{ url_for( 'catalog.display_info' ) }}" >{{cat['cat'].name}}</a></p>
+    	</div>
+    	<div class="catalog-nav_image_group" >
+    		<p>
+    			{% for product in cat['prods'] %}
+    			<a href="{{ url_for( 'catalog.prices') }}{{ product.id }}/"  title="{{ product.name }}">
+                    <img class="catalog-nav_image" src="/static/{{ product.image_path}}" 
+                    alt="{{ product.name }}">
+                </a>
+    			{% endfor %}
+    		</p>
+    	</div>
+        {% endfor %}
 
-	<div class="catalog-nav_background">
-		<div >
-			<p><a href="{{ url_for( 'catalog.prices') }}" >Price List</a></p>
-		</div>
-	</div>
-
-
-	<div class="catalog-nav_background">
-		<div >
-			<p><a href="{{ url_for( 'www.contact') }}" >Special Quotes</a></p>
-		</div>
-	</div>
+    	<div class="catalog-nav_background">
+    			<p><a href="{{ url_for( 'catalog.prices') }}" >Price List</a></p>
+    	</div>
 
 
-	<div class="catalog-nav_background">
-		<div >
-			<p><a href="{{ url_for( 'www.about') }}" >About Lindcraft</a></p>
-		</div>
-	</div>
+    	<div class="catalog-nav_background">
+    			<p><a href="{{ url_for( 'www.contact') }}" >Special Quotes</a></p>
+    	</div>
 
+
+    	<div class="catalog-nav_background">
+    			<p><a href="{{ url_for( 'www.about') }}" >About Lindcraft</a></p>
+    	</div>
+    </div>
+    <p class="clear"></p>
+    
 </div>
