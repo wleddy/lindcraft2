@@ -22,6 +22,10 @@ def home():
 @mod.route('/prices/',methods=["GET",])
 @mod.route('/prices/<prod_id>',methods=["GET",])
 @mod.route('/prices/<prod_id>/',methods=["GET",])
+@mod.route('/product',methods=["GET",])
+@mod.route('/product/',methods=["GET",])
+@mod.route('/product/<prod_id>',methods=["GET",])
+@mod.route('/product/<prod_id>/',methods=["GET",])
 def prices(prod_id=0):
     setExits()
     product_desc_html = ''
