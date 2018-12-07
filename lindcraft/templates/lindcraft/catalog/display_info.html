@@ -6,6 +6,7 @@
 <p class="product-list-item">
     <a style="font-decoration:none;" href="{{ url_for('catalog.prices')}}{{product.id}}/">
     <img style="float:left;height:60px;width:60px;padding:3pt 3pt;" src="/static/{{product.image_path | small_product_image }}" />
+    <strong>{{ product.name }}</strong><br>
     {{ product.desc | truncate(80,True)}}
     </a>
 </p>
