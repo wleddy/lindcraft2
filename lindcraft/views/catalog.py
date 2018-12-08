@@ -11,6 +11,9 @@ def setExits():
     g.view_catalog = True
     g.catalog_nav = get_nav_html()
 
+
+@mod.route('/displayinfo',methods=["GET",])
+@mod.route('/displayinfo/',methods=["GET",])
 @mod.route('/',methods=["GET",])
 def home():
     setExits()
