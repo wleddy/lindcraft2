@@ -45,7 +45,8 @@ def prices(prod_id=0):
             show_groups = False
             template = 'product.html'
             product_desc_html = render_markdown_text(price_list[0]['product'].desc)
-        return render_template(template,price_list=price_list,show_groups=show_groups,effective_date=effective_date,product_desc_html=product_desc_html,)
+        return render_template(template,price_list=price_list,show_groups=show_groups,
+        effective_date=effective_date,product_desc_html=product_desc_html,)
             
     flash('Could not find that product')
     return redirect(url_for('.home'))
@@ -104,12 +105,13 @@ def get_price_list(prod_id=0):
         where = "p.id = {}".format(prod_id,)
             
     products = Product(g.db).select_active(where=where)
-    for product in products:
-        # Get selection of active products for this category
-        where = 'prod_id = {}'.format(product.id)
-        models = Model(g.db).select_active(where=where)
-        if models:
-            prod_list.append({'product':product,'models':models,})
+    if products:
+        for product in products:
+            # Get selection of active products for this category
+            where = 'prod_id = {}'.format(product.id)
+            models = Model(g.db).select_active(where=where)
+            if models:
+                prod_list.append({'product':product,'models':models,})
     
     
     return prod_list
