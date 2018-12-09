@@ -9,7 +9,7 @@
     		<p>
     			{% for product in cat['prods'] %}
     			<a href="{{ url_for( 'catalog.prices') }}{{ product.id }}/"  title="{{ product.name }}">
-                    <img class="catalog-nav_image" src="/static/{{ product.image_path}}" 
+                    <img class="catalog-nav_image" src="/static/{{ product.image_path | small_product_image }}" 
                     alt="{{ product.name }}">
                 </a>
     			{% endfor %}

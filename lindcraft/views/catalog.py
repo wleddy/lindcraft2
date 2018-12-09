@@ -88,9 +88,6 @@ def get_nav_html():
         # Get selection of active products for this category
         prods = Product(g.db).select_active(where="cat_id = {}".format(cat.id,))
         if prods:
-            # Modify the image name for nav display
-            for prod in prods:
-                prod.image_path = prod.image_path.replace('.jpg','_sm.jpg')
             cat_list.append({'cat':cat,'prods':prods,})
         
         
