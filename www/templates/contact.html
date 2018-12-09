@@ -22,14 +22,32 @@
         <p><span>Question, Comment:</span>
         <textarea name="comment" rows="8" cols="60" required >{{ context['comment'] }}</textarea></p>
     </fieldset>
-
+    <div id='contact-quiz' style="border:#666 1pt solid;padding:6pt;max-width:500pt;margin:3pt auto">
+        <p>
+            To prove you are an actual human, <strong>Please answer the following quiz</strong>:
+        </p>
+        <p>Imagine that a plane crashed on the border between two countries. Rescuers arrive from both countries at the same 
+            time.
+        </p>
+        <p>
+            Where do they bury the survivors?<br>
+            <label><input type="radio" name="quiz_answer" value="1" />A: In a cemetery</label><br>
+            <label><input type="radio" name="quiz_answer" value="2" />B: In a snow bank</label><br>
+            <label><input type="radio" name="quiz_answer" value="3" />C: You don't bury survivors</label><br>
+            <label><input type="radio" name="quiz_answer" value="4" />D: In a lake</label><br>
+            <em>(Hint: the answer is C)</em>
+        </p>
+    </div>
     <p><input type="submit" value="Send">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/">Cancel</a></p>
 </form>
 {% else %}
-<p>Thanks for your comments. We'll get back to you soon.</p>
-
-<p><a href="/">Return to the home page</a></p>
-
+    {% if passed_quiz %}
+    <p>Thanks for your comments. We'll get back to you soon.</p>
+    <p><a href="/">Return to the home page</a></p>
+    {% else %}
+    <p>Sorry. I can't deliver your message you did not answer the quiz correctly.</p>
+    <p><a href="{{ url_for('.contact')}}">Return to the contact page</a></p>
+    {% endif %}
 {% endif %}
 
 {% endblock content%}

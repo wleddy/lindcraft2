@@ -55,6 +55,8 @@ def contact():
     show_form = True
     context = {}
     success = True
+    passed_quiz = True
+    
     mes = "No errors yet..."
     if request.form:
         #import pdb;pdb.set_trace()
@@ -93,6 +95,13 @@ def contact():
                 else:
                     success = False
                     
+            # Grade the quiz
+            the_answer = request.form.get('quiz_answer',None)
+            if success and (the_answer == None or the_answer !="3"):
+                passed_quiz = False
+                show_form = False
+                return render_template('contact.html',rendered_html=rendered_html, show_form=show_form, context=context,passed_quiz=passed_quiz)
+                
             if success:
                 # Ok so far... Try to send
                 success, mes = send_message(
@@ -109,7 +118,7 @@ def contact():
             flash('You left some stuff out.')
             
     if success:
-        return render_template('contact.html',rendered_html=rendered_html, show_form=show_form, context=context)
+        return render_template('contact.html',rendered_html=rendered_html, show_form=show_form, context=context,passed_quiz=passed_quiz)
             
     handle_request_error(mes,request,500)
     flash(mes)
