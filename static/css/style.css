@@ -512,6 +512,11 @@ p#lcrlogo a img{
 
     /* End Navigation styles for small screen */
 
+    #modal-form-contain {
+        top:1em;
+        left:1em;
+    }
+    
     #product_form {
         float:none;
         width:100%;
