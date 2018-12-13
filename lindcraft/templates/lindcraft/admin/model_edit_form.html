@@ -34,7 +34,7 @@
     <p><span>Price:</span>
         <input type="num" size="10" name="price" value="{{ rec.price|default('0',True )|money}}" />
     </p>
-    <p><span>Price Change Date: </span><input type="date" size="20" required name="price_change_date" value="{{ rec.price_change_date|default('',True )|short_date_string}}" /></p>
+    <p><span>Price Change Date: </span><input type="text" size="20" required name="price_change_date" value="{{ rec.price_change_date|default('',True )|short_date_string}}" /></p>
     <p><span>Active:</span>
         <label><input type="radio" name="active" value="1" {% if rec.active == 1 %} checked="checked" {%endif%} />Active</label>
         &nbsp;&nbsp;
