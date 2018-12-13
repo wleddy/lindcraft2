@@ -400,6 +400,19 @@ p#lcrlogo a img{
     margin:0;
 }
 
+#product_form {
+    float:left;
+    width:30%;
+}
+#model_list {
+    margin-left:380pt;
+    height:20em;
+    overflow:scroll;
+    border-left: 1pt solid #666;
+    padding-left:20pt;
+}
+
+
 /*
 @media screen and (max-width: 680px){
 */
@@ -499,5 +512,16 @@ p#lcrlogo a img{
 
     /* End Navigation styles for small screen */
 
+    #product_form {
+        float:none;
+        width:100%;
+    }
+    #model_list {
+        margin-left:0;
+        height:auto;
+        overflow:auto;
+        border:none;
+        padding-left:0pt;
+    }
 
 }

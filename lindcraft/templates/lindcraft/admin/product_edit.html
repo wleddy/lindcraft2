@@ -2,7 +2,7 @@
 {% block title %}Edit {{ g.title }}{% endblock %}
 {% block body %}
 	<h2>Edit {{ g.title }}</h2>	
-    <div id="product_form" style="float:left;width:30%">
+    <div id="product_form">
         <form action="{{ g.editURL }}{{ rec.id|default('0',True)}}/" method=post class="entry">
             {% include "editFormButtons.html" %}
             <fieldset>
@@ -26,7 +26,7 @@
             </fieldset>
         </form>
     </div>    
-    <div id="model_list" style="margin-left:380pt;height:20em;overflow:scroll;border-left: 1pt solid #666;padding-left:20pt;">
+    <div id="model_list">
         <!-- models list will display here -->
         <h3>Models</h3>
         <div id="model_list_body">
