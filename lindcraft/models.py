@@ -109,6 +109,7 @@ class Model(SqliteTable):
         """ ordering =['product__category__displayOrder','model'] """
         
         self.defaults = {"active":1,}
+        self.order_by_col = 'model, id'
         
     def create_table(self):
         """Define and create the Model table"""
