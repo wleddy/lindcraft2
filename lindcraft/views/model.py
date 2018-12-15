@@ -96,9 +96,9 @@ def handle_edit(model_id=None,prod_id=None,from_list=False):
              
     # Handle Response?
     if request.form:
+        model.update(rec,request.form)
         if validate_form(rec):
     
-            model.update(rec,request.form)
             if (rec_prev and
                 rec.price != rec_prev.price and
                 getDatetimeFromString(rec.price_change_date) == getDatetimeFromString(rec_prev.price_change_date)):
@@ -199,18 +199,21 @@ def save_record(rec):
     
 def validate_form(rec):
     valid_form = True
-    rec.model = request.form.get('model',None).strip()
-    where = "model = '{}'".format(rec.model)
-    if rec.id is not None:
-        where += "and id <> {}".format(rec.id)
-    existing_model_cnt = Model(g.db).select(where=where) #return a row object or None
+    where = ""
+    #import pdb;pdb.set_trace()
     if not rec.model:
         flash("Model Name is required.")
         valid_form = False
-        
-    elif existing_model_cnt:
-        valid_form = False
-        flash('That model name is already taken')
+    else:
+        where = "model = '{}'".format(rec.model.strip())
+        if rec.id:
+            where += "and id <> {}".format(rec.id)
+            
+        existing_model_cnt = Model(g.db).select(where=where) #return a row object or None
+    
+        if existing_model_cnt:
+            valid_form = False
+            flash('That model name is already taken')
         
     datestring = request.form.get('price_change_date','').strip()
     change_date = getDatetimeFromString(datestring)
@@ -229,5 +232,25 @@ def validate_form(rec):
     if not productID or productID < 0:
         flash("You must select an product to use with this model")
         valid_form = False
+    else:
+        # product must exist
+        prod = Product(g.db).get(productID)
+        if not prod:
+            flash("That is not a valid product")
+            valid_form = False
+            
+    # price may not be None
+    if rec.price == None:
+        flash('The price may not be None')
+        valid_form = False
+        
+    elif type(rec.price) is int or type(rec.price) is float:
+        pass #ok
+        
+    if type(rec.price) is str:
+        x = rec.price.partition('.')
+        if not x[0].isdigit():
+            flash('The price must be a number')
+            valid_form = False
         
     return valid_form
