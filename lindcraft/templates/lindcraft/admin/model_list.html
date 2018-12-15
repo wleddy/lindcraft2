@@ -14,7 +14,7 @@
 		{% for rec in recs %}
 	    <tr>
 			<td style="min-width:80px;"><a href="{{ g.editURL }}{{ rec.id }}/">{{ rec.model }}</a></td>
-            <td>{{ rec.desc | truncate(30)}}</td>
+            <td>{{ rec.desc | default('',True)| truncate(30)}}</td>
             <td style="text-align:right;">{{ rec.price | money }}</td>
             <td style="text-align:center;">{% if rec.active == 1 %}
                 <img src="{{ url_for('static', filename='images/check_mark.png') }}" />{% else %}
