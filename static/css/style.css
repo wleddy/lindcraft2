@@ -511,6 +511,22 @@ p#lcrlogo a img{
 
     /* End Navigation styles for small screen */
 
+    p#bikelogo {
+        display:none;
+    }
+    p#lcrlogo {
+        padding:0;
+    }
+    p#lcrlogo img {
+        height:48px;
+        width:auto;
+        padding:0;
+    }
+    #head h2 {
+        margin:0 auto;
+        text-align:center;
+    }
+
     #modal-form-contain {
         top:1em;
         left:1em;
