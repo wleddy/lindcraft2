@@ -46,59 +46,7 @@ def edit_from_list(id=None,prod_id=None):
     setExits()
     #import pdb;pdb.set_trace()
     
-    prod_id=cleanRecordID(prod_id)
-    product_rec = None
-    rec = None
-    
-    model = Model(g.db)
-    model_id = cleanRecordID(id)
-    if model_id > 0:
-        rec = model.get(model_id)
-        
-    if rec:
-        prod_id = rec.prod_id
-    else:
-        rec = model.new()
-        rec.price_change_date = local_datetime_now()
-        if 'last_model' in session:
-            model.update(rec,session['last_model'])
-    
-    # Handle Response?
-    if request.form:
-        #import pdb;pdb.set_trace()
-        error_list=[]
-        model.update(rec,request.form)
-        if save_record(rec,error_list):
-            return "success" # the ajax success function looks for this...
-        else:
-            for err in error_list:
-                flash(err)
-            #return redirect(g.listURL)
-            
-            
-    
-    if prod_id > 0:
-        product_rec = Product(g.db).get(prod_id)
-    
-    if not product_rec:
-        flash("This is not a valid product id")
-        return "failure: This is not a valid product id."
-    else:
-        rec.prod_id=prod_id
-        
-            
-    return render_template('model_edit_from_list.html',rec=rec,current_product=product_rec)
-    
-    
-@mod.route('/delete_from_list/',methods=["GET", "POST",])
-@mod.route('/delete_from_list/<int:id>/',methods=["GET", "POST",])
-@table_access_required(Model)
-def delete_from_list(id=None):
-    setExits()
-    if handle_delete(id):
-        return "success"
-
-    return 'failure: Could not delete that {}'.format(g.title)
+    return handle_edit(id,prod_id,from_list=True)
     
 @mod.route('/edit',methods=["GET", "POST",])
 @mod.route('/edit/',methods=["GET", "POST",])
@@ -107,57 +55,77 @@ def delete_from_list(id=None):
 def edit(id=None):
     setExits()
     #import pdb;pdb.set_trace()
+    return handle_edit(id,None,from_list=False)
+
     
-    model = Model(g.db)
+def handle_edit(model_id=None,prod_id=None,from_list=False):
+    """Handle special parts of model record edit"""
+
+    #import pdb;pdb.set_trace()
     
-    if request.form:
-        id = request.form.get('id',None)
-    id = cleanRecordID(id)
     products = Product(g.db).select()
+
+    model = Model(g.db)
+    model_id = cleanRecordID(model_id)
+    rec = model.get(model_id)
+    rec_prev = model.get(model_id)
+    if rec:
+        prod_id = rec.prod_id
+        
     current_product = None
-    
-    if id < 0:
-        flash("Invalid Record ID")
-        return redirect(g.listURL)
-    
-    if not request.form:
-        if id == 0:
-            rec = model.new()
-            rec.price_change_date = local_datetime_now()
-            if 'last_model' in session:
-                model.update(rec,session['last_model'])
+    if prod_id == None:
+        prod_id = request.form.get('prod_id',0) # attempt to set from form such as in the case of a new model
+    prod_id = cleanRecordID(prod_id)
+    current_product = Product(g.db).get(prod_id)
+
+    if model_id == 0:
+        rec = model.new()
+        rec.price_change_date = local_datetime_now()
+        rec.prod_id = prod_id
+        
+        if 'last_model' in session:
+            model.update(rec,session['last_model'])
+        
+    if not rec:
+        mes = "not a valid Model ID"
+        if from_list:
+            return "failure: {}".format(mes)
         else:
-            rec = model.get(id)
-            
-        if not rec:
-            flash('Record not Found')
+            flash(mes)
             return redirect(g.listURL)
-        else:
-            #Get the product if there is one
-            if rec.prod_id != 0:
-                current_product = Product(g.db).get(rec.prod_id)
+             
+    # Handle Response?
+    if request.form:
+        if validate_form(rec):
+    
+            model.update(rec,request.form)
+            if (rec_prev and
+                rec.price != rec_prev.price and
+                getDatetimeFromString(rec.price_change_date) == getDatetimeFromString(rec_prev.price_change_date)):
+                #If the price changed and the date didn't, change the date
+                rec.price_change_date = local_datetime_now()
                 
+            if not rec.prod_id:
+                rec.prod_id = prod_id
+                
+            if save_record(rec):
+                if from_list:
+                    return "success"
+                else:
+                    return redirect(g.listURL)
+            else:
+                if from_list:
+                    return "failure: Unable to save changes."
+                else:
+                    pass #redisplay template below
+        else:
+            #invalid form
+            model.update(rec,request.form)
             
-    elif request.form:
-        current_product = Product(g.db).get(cleanRecordID(request.form.get('prod_id',"0")))
-        if id == 0:
-            rec = model.new()
-        else:
-            rec = model.get(id)
-            if not rec:
-                flash('Record not found when trying to save')
-                return redirect(g.listURL)
-                
-        model.update(rec,request.form)
-        error_list = []
-        if save_record(rec,error_list):
-            return redirect(g.listURL)
-        else:
-            for err in error_list:
-                flash(err)
-        return redirect(g.listURL)
-                    
-    return render_template('model_edit.html',rec=rec,current_product=current_product,products=products)
+    if from_list:
+        return render_template('model_edit_from_list.html',rec=rec,current_product=current_product,products=products)
+    else:
+        return render_template('model_edit.html',rec=rec,current_product=current_product,products=products)
 
 
 @mod.route('/get_model_list/',methods=["GET", ])
@@ -170,6 +138,17 @@ def get_model_list_for_product(prod_id=None):
         models = Model(g.db).select(where='prod_id = {}'.format(prod_id))
         
     return render_template('model_embed_list.html',models=models,prod_id=prod_id)
+    
+    
+@mod.route('/delete_from_list/',methods=["GET", "POST",])
+@mod.route('/delete_from_list/<int:id>/',methods=["GET", "POST",])
+@table_access_required(Model)
+def delete_from_list(id=None):
+    setExits()
+    if handle_delete(id):
+        return "success"
+
+    return 'failure: Could not delete that {}'.format(g.title)
     
     
 @mod.route('/delete',methods=["GET", "POST",])
@@ -201,22 +180,21 @@ def handle_delete(id=None):
         Model(g.db).delete(rec.id)
         g.db.commit()
         return True
-    
-    
-def save_record(rec,err_list=[]):
-    """Attempt to validate and save a record"""
-    if validate_form(rec):
-        try:
-            Model(g.db).save(rec)
-            g.db.commit()
-            #Save the date and comment to session
-            session['last_model'] = {"price_change_date":rec.price_change_date,}
-            return True
-            
-        except Exception as e:
-            g.db.rollback()
-            err_list.append(printException('Error attempting to save Model record',str(e)))
-            return False
+
+
+def save_record(rec):
+    """Attempt to save a record"""
+    try:
+        Model(g.db).save(rec)
+        g.db.commit()
+        #Save the date and comment to session
+        session['last_model'] = {"price_change_date":rec.price_change_date,}
+        return True
+        
+    except Exception as e:
+        g.db.rollback()
+        flash(printException('Error attempting to save Model record',str(e)))
+        return False
     
     
 def validate_form(rec):

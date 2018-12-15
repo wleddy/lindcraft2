@@ -30,7 +30,7 @@
     <p><span>Model Name:</span><input type="num" size="15" name="model" required value="{{ rec.model|default('',True )}}" /></p>
     <p><span>Description:</span><input type="text" size="45" name="desc"  value="{{ rec.desc|default('',True )}}" /></p>
     <p><span>Size:</span><input type="text" size="25" name="size"  value="{{ rec.size|default('',True )}}" /></p>
-    <p><span>Bike Count:</span><input type="num" size="5" name="bike_cnt"  value="{{ rec.bike_cnt|default('1',True )}}" /></p>
+    <p><span>Bike Count:</span><input type="num" size="5" name="bike_cnt"  value="{{ rec.bike_cnt|default('0', True)}}" /></p>
     <p><span>Price:</span>
         <input type="num" size="10" name="price" value="{{ rec.price|default('0',True )|money}}" />
     </p>
