@@ -406,7 +406,6 @@ p#lcrlogo a img{
 }
 #model_list {
     margin-left:380pt;
-    height:20em;
     overflow:scroll;
     border-left: 1pt solid #666;
     padding-left:20pt;
@@ -515,6 +514,7 @@ p#lcrlogo a img{
     #modal-form-contain {
         top:1em;
         left:1em;
+        
     }
     
     #product_form {
